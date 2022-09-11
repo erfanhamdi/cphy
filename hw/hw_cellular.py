@@ -7,7 +7,7 @@ class AbelianSandpile:
         self.n = n
         np.random.seed(random_state) # Set the random seed
         self.grid = np.random.choice([0, 1, 2, 3], size=(n, n))
-        # self.grid = np.random.choice([3], size=(n, n))
+        self.grid = np.random.choice([3], size=(n, n))
         self.history =[self.grid.copy()] # Why did we need to copy the grid?
         self.all_durations = list() # useful to keep track of the duration of toppling events
 
@@ -48,7 +48,7 @@ class AbelianSandpile:
             final_mask = row_mask + col_mask
             final_mask[mask_history] = 0
             self.grid += final_mask
-            self.grid[mask_history] = 0
+            self.grid[mask_history] -= 4
             duration += 1
         self.all_durations.append(duration)
 
@@ -79,7 +79,7 @@ class AbelianSandpile:
 
 if __name__ == "__main__":
 # Run sandpile simulation
-    model = AbelianSandpile(n=100, random_state=0)
+    model = AbelianSandpile(n=10, random_state=0)
     # model.step()
     plt.figure()
     plt.imshow(model.grid, cmap='gray')
