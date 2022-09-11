@@ -7,7 +7,7 @@ class AbelianSandpile:
         self.n = n
         np.random.seed(random_state) # Set the random seed
         self.grid = np.random.choice([0, 1, 2, 3], size=(n, n))
-        self.grid = np.random.choice([3], size=(n, n))
+        # self.grid = np.random.choice([3], size=(n, n))
         self.history =[self.grid.copy()] # Why did we need to copy the grid?
         self.all_durations = list() # useful to keep track of the duration of toppling events
 
@@ -79,7 +79,7 @@ class AbelianSandpile:
 
 if __name__ == "__main__":
 # Run sandpile simulation
-    model = AbelianSandpile(n=10, random_state=0)
+    model = AbelianSandpile(n=100, random_state=0)
     # model.step()
     plt.figure()
     plt.imshow(model.grid, cmap='gray')
@@ -124,7 +124,7 @@ if __name__ == "__main__":
     all_diffs = all_diffs[np.sum(all_diffs, axis=(1, 2)) > 1] # Filter to only keep big events
     most_recent_events = np.sum(all_diffs[-100:], axis=0)
     plt.figure(figsize=(5, 5))
-    plt.imshow(most_recent_events)
+    plt.imshow(most_recent_events, cmap='afmhot')
     plt.title("Avalanch activity in most recent timesteps")
 
     all_diffs = np.abs(np.diff(np.array(model.history), axis=0))
@@ -135,7 +135,7 @@ if __name__ == "__main__":
     activity_sliding = activity_cumulative[50:] - activity_cumulative[:-50]
 
     plt.figure(figsize=(5, 5))
-    plt.imshow(activity_sliding[-1])
+    plt.imshow(activity_sliding[-1], cmap='afmhot')
     activity_sliding2 = activity_sliding[-500:]
     vmin = np.percentile(activity_sliding2, 1)
     # vmin = 0
@@ -143,10 +143,10 @@ if __name__ == "__main__":
     for i in range(len(activity_sliding2) - 1):
         
         
-        out_path = "cphy/hw/private_dump/sandpile/frame" + str(i).zfill(4) + ".png"
+        out_path = "hw/private_dump/sandpile/frame" + str(i).zfill(4) + ".png"
 
         plt.figure()
-        plt.imshow(activity_sliding2[i], vmin=vmin, vmax=vmax)
+        plt.imshow(activity_sliding2[i], vmin=vmin, vmax=vmax, cmap='copper')
 
         ax = plt.gca()
         ax.set_axis_off()
